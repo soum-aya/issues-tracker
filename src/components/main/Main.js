@@ -34,7 +34,9 @@ function Main() {
   ]);
 
   const addProject = (project) => {
-    console.log(project);
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const newProject = { id, ...project };
+    setProjects([...projects, newProject]);
   };
 
   const deleteProject = (id) => {
