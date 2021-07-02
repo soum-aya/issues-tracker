@@ -3,9 +3,9 @@ import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import Sidebar from "./components/sidebar/Sidebar";
 import Main from "./components/main/Main";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   const [showNav, setShowNav] = useState(false);

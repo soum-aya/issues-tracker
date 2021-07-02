@@ -1,39 +1,79 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const initialValues = {
+  name: "",
+  description: "",
+  manager: "",
+  deadLine: "",
+};
+
+const validationSchema = Yup.object({
+  name: Yup.string().required("Required!"),
+  description: Yup.string().required("Required!"),
+  manager: Yup.string().required("Required!"),
+});
 
 const AddProject = ({ onAdd }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [manager, setManager] = useState("");
-  const [deadLine, setdeadLine] = useState("");
+  const onSubmit = (values, onSubmitProps) => {
+    onAdd(values);
+    console.log("values", values);
+    onSubmitProps.setSubmitting(false);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (!name) {
-      alert("Please add a project");
-      return;
-    }
-    onAdd({ name, description, manager, deadLine });
-
-    setName("");
-    setDescription("");
-    setManager("");
-    setdeadLine("");
+    onSubmitProps.resetForm();
   };
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!name) {
+  //     alert("Please add a project");
+  //     return;
+  //   }
+  //   onAdd({ name, description, manager, deadLine });
+
+  //   setName("");
+  //   setDescription("");
+  //   setManager("");
+  //   setdeadLine("");
+  // };
 
   return (
-    <div className="container">
-      <form onSubmit={onSubmit}>
-        <label>Project</label>
-        <input type="text" placeholder="Add project.." value={name} onChange={(e) => setName(e.target.value)} />
+    <div>
+      <Link to="/projects">Close</Link>
+      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema} validateOnChange={false}>
+        {(formik) => {
+          return (
+            <Form>
+              <div className="form-control">
+                <label htmlFor="name">Project</label>
+                <Field type="text" id="name" name="name" placeholder="Add project.." />
+                {/* onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name}  */}
+                <ErrorMessage name="name">{(errorMsg) => <div className="errors">{errorMsg}</div>}</ErrorMessage>
+              </div>
 
-        <label>Description</label>
-        <textarea placeholder="Write something.." style={{ height: "200px" }} value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-        <label>Project Manager</label>
-        <input type="text" placeholder="project manager.." value={manager} onChange={(e) => setManager(e.target.value)} />
-        <label>Deadline</label>
-        <input type="date" value={deadLine} onChange={(e) => setdeadLine(e.target.value)} />
-        <input type="submit" value="Save project" />
-      </form>
+              <div className="form-control">
+                <label htmlFor="description">Description</label>
+                <Field as="textarea" type="text" id="description" name="description" placeholder="Write something.." style={{ height: "200px" }}></Field>
+                <ErrorMessage name="description">{(errorMsg) => <div className="errors">{errorMsg}</div>}</ErrorMessage>
+              </div>
+
+              <div className="form-control">
+                <label htmlFor="manager">Project Manager</label>
+                <Field type="text" id="manager" name="manager" placeholder="project manager.." />
+                <ErrorMessage name="manager">{(errorMsg) => <div className="errors">{errorMsg}</div>}</ErrorMessage>
+              </div>
+
+              <div className="form-control">
+                <label htmlFor="deadLine">Deadline</label>
+                <Field type="date" id="deadLine" name="deadine" />
+              </div>
+              <button className="submit" type="submit" disabled={!formik.isValid || formik.isSubmitting}>
+                Save Project
+              </button>
+            </Form>
+          );
+        }}
+      </Formik>
     </div>
   );
 };

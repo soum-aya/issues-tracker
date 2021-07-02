@@ -8,6 +8,7 @@
 .customers th {
   border: 1px solid #ddd;
   padding: 8px;
+  list-style-type: none;
 }
 
 .customers tr:nth-child(even) {
