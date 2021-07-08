@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "./FormikControl";
 
 function FormikContainer({ onAdd }) {
+  let history = useHistory();
   const initialValues = {
     name: "",
     description: "",
@@ -18,9 +19,10 @@ function FormikContainer({ onAdd }) {
     manager: Yup.string().required("Required!"),
     deadLine: Yup.date().required("Required!").nullable(),
   });
-  const onSubmit = (values, onSubmitProps) => {
-    onAdd(values);
+  const onSubmit = ({ name, description, manager, deadLine }, onSubmitProps) => {
+    onAdd({ name, description, manager, deadLine });
     onSubmitProps.resetForm();
+    history.push("/projects");
   };
   return (
     <div>

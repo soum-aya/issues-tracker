@@ -7,7 +7,7 @@ import Home from "../../pages/Home";
 import Issues from "../../pages/Issues";
 import Projects from "../../pages/Projects";
 import FormikContainer from "../FormikContainer";
-import UppdatedForm from "../UppdatedForm";
+import EditProject from "../EditProject";
 
 import "./Main.css";
 
@@ -36,9 +36,9 @@ function Main({ showSidbar }) {
     },
   ]);
 
-  const addProject = (project) => {
+  const addProject = ({ name, description, manager, deadLine }) => {
     const id = Math.floor(Math.random() * 10000) + 1;
-    const newProject = { id, ...project };
+    const newProject = { id, name, description, manager, deadLine };
     setProjects([...projects, newProject]);
   };
 
@@ -46,8 +46,15 @@ function Main({ showSidbar }) {
     setProjects(projects.filter((project) => project.id !== id));
   };
 
-  const editForm = (id) => {
-    projects.filter((project) => project.id === id);
+  const editProject = (newProject, id) => {
+    const oldProject = projects.filter((project) => project.id == id);
+    console.log(oldProject[0]);
+    oldProject[0].name = newProject.name;
+    oldProject[0].description = newProject.description;
+    oldProject[0].manager = newProject.manager;
+    oldProject[0].deadLine = newProject.deadLine;
+
+    setProjects([...projects]);
   };
 
   return (
@@ -67,8 +74,8 @@ function Main({ showSidbar }) {
         <Route path="/addproject">
           <FormikContainer onAdd={addProject} />
         </Route>
-        <Route path="/uppdatedform">
-          <UppdatedForm onUpdate={editForm} />
+        <Route path="/editproject">
+          <EditProject projects={projects} onEdit={editProject} />
         </Route>
       </Switch>
     </div>

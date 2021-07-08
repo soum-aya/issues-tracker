@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
 function App() {
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState(true);
   const openNav = () => {
     setShowNav(!showNav);
   };

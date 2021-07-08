@@ -15,7 +15,7 @@ const Table = ({ projects, onDelete }) => {
         </thead>
         <tbody>
           {projects.map((project) => (
-            <Project key={project.id} project={project} onDelete={onDelete} />
+            <Project key={project.id} project={project} onDelete={onDelete} id={project.id} />
           ))}
         </tbody>
       </table>
